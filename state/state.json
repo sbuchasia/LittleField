@@ -1,5 +1,5 @@
 {
- "runs": 25,
+ "runs": 26,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -127,6 +127,6 @@
    "act": "roq -> 12240  (EOQ 7446, cover 4.5d)"
   }
  ],
- "last_day": 58.0,
- "last": "2026-11-09T20:13:16+00:00 day 58.0 cash $278,851 debt $2,500,000 machines {1: 9, 2: 6, 3: 9} on-order {1: 6, 2: 2, 3: 2} inv 11940 rop/roq 13620/12240 contract 1 wip 8 rule pri4 edits=on"
+ "last_day": 59.0,
+ "last": "2026-11-09T20:23:25+00:00 day 59.0 cash $276,723 debt $2,500,000 machines {1: 9, 2: 6, 3: 9} on-order {1: 6, 2: 2, 3: 2} inv 11940 rop/roq 13620/12240 contract 1 wip 8 rule pri4 edits=on"
 }
