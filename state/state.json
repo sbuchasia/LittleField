@@ -1,5 +1,5 @@
 {
- "runs": 12,
+ "runs": 13,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -70,8 +70,18 @@
    "ts": "2026-11-09T18:00:49+00:00",
    "day": 54.0,
    "act": "buy S3 -> 9  (want 18 (\u03bbplan 47.1/d, backlog 886h))"
+  },
+  {
+   "ts": "2026-11-09T18:11:03+00:00",
+   "day": 54.0,
+   "act": "rop -> 8160  (D 1630 kits/d, lead 4d + 1.0d safety)"
+  },
+  {
+   "ts": "2026-11-09T18:11:03+00:00",
+   "day": 54.0,
+   "act": "roq -> 7380  (EOQ 5768, cover 4.5d)"
   }
  ],
  "last_day": 54.0,
- "last": "2026-11-09T18:00:49+00:00 day 54.0 cash $1,302,805 debt $1,200,000 machines {1: 4, 2: 3, 3: 4} on-order {1: 0, 2: 0, 3: 0} inv 8040 rop/roq 3660/3900 contract 1 wip 8 rule pri4 edits=on"
+ "last": "2026-11-09T18:11:03+00:00 day 54.0 cash $112,805 debt $1,200,000 machines {1: 4, 2: 3, 3: 4} on-order {1: 5, 2: 3, 3: 5} inv 8040 rop/roq 3660/3900 contract 1 wip 8 rule pri4 edits=on"
 }
