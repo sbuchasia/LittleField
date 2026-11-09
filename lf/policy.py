@@ -58,6 +58,10 @@ DEFAULTS = dict(
     max_machines=25,
     rule="pri4",
     enable_c3=False,
+    target_contract=2,         # contract to run once the backlog is flushed (2, or 3 with split lots)
+    lots=1,                    # lots per job to run (1, 2, 3, 5, 10); split lots overlap across stations
+    c3_switch_lt=0.25,         # switch to c3 when predicted lead time fits its 6 h quote
+    c3_revert_lt=0.40,         # fall back to c2 when c3 lead time blows out (pays 0 at 0.5 d)
     c2_switch_lt=1.0,          # switch to c2 once a new job's predicted lead time fits the 1-day quote
     c2_revert_lt=1.8,          # back to c1 if lead time blows out (c2 earns < c1 past ~1.5d)
     wip_days=0.6,              # WIP cap = throughput x this many days
@@ -146,7 +150,9 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
         return _hold_mode(obs) if obs.day >= cfg["hold_after_day"] else []
     f = Forecaster(obs, cfg)
     d = obs.day
-    lots = obs.lots_per_job
+    lots = cfg["lots"] if obs.can_edit_orders else obs.lots_per_job
+    if obs.can_edit_orders and obs.lots_per_job != lots:
+        acts.append(Action("lots", lots, reason=f"{lots}x{60 // lots} lets lots overlap across stations"))
     h = {k: hours_per_job(k, lots) for k in (1, 2, 3)}
     u = cfg["util_target"]
     s = obs.series
@@ -170,7 +176,11 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
     eff = {k: obs.machines[k] + obs.on_order.get(k, 0) for k in (1, 2, 3)}
     mu = min(eff[k] * 24 / h[k] for k in (1, 2, 3))            # jobs/day once orders land
     mu_now = min(obs.machines[k] * 24 / h[k] for k in (1, 2, 3))
-    flow = sum(h.values()) / 24                                  # no-wait flow time, days
+    # no-wait flow time of one job, days: with split lots each lot flows on its own,
+    # so the job takes one lot's flow plus the lots queuing behind each other at the tuner
+    lot_h = {k: h[k] / lots for k in (1, 2, 3)}
+    flow = (lot_h[1] + lot_h[2] + lot_h[3]
+            + max(0, lots - min(lots, obs.machines[3])) * lot_h[3]) / 24
     lt_new = max(flow, wip_jobs / max(mu_now, 0.1))
     if obs.can_edit_orders:
         # cap WIP so a new job's lead time stays inside the c2 quote. When demand
@@ -178,13 +188,20 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
         cap = int(max(cfg["min_wip"], round(mu_now * cfg["wip_days"])))
         if abs(cap - obs.wip_limit) >= max(2, 0.12 * obs.wip_limit):
             acts.append(Action("wip", cap, reason=f"μ {mu_now:.1f} jobs/d x {cfg['wip_days']}d"))
-        if contract != 2 and lt_new <= cfg["c2_switch_lt"]:
+        tgt = cfg["target_contract"]
+        if tgt == 3 and contract != 3 and lt_new <= cfg["c3_switch_lt"]:
+            contract = 3
+            acts.append(Action("contract", 3, reason=f"pred lead {lt_new:.2f}d fits the 6h quote"))
+        elif contract == 3 and lt_new > cfg["c3_revert_lt"]:
+            contract = 2
+            acts.append(Action("contract", 2, reason=f"pred lead {lt_new:.2f}d, c3 pays little"))
+        elif contract == 1 and lt_new <= cfg["c2_switch_lt"]:
             contract = 2
             acts.append(Action("contract", 2, reason=f"backlog flushed, pred lead {lt_new:.2f}d"))
         elif contract == 2 and lt_new > cfg["c2_revert_lt"]:
             contract = 1
             acts.append(Action("contract", 1, reason=f"pred lead {lt_new:.2f}d, c1 pays more"))
-    target_contract = 2 if obs.can_edit_orders else contract
+    target_contract = cfg["target_contract"] if obs.can_edit_orders else contract
     margin = CONTRACTS[target_contract]["rev"] - 60 * obs.kit_unit - 60 * 1.5 * cfg["holding_per_kit_day"]
 
     # ---- capacity

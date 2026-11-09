@@ -87,6 +87,8 @@ def guard(acts, obs, cfg):
                 a.value = obs.machines[a.station] - cfg.get("max_sell_per_run", 3)
         if a.kind == "loan" and not cfg.get("allow_loans", False):
             continue
+        if a.kind in ("loan", "repay"):
+            a.value = int(min(a.value, 999_999))   # the game's amount box takes 6 digits; rest goes next run
         if a.kind in ("rop", "roq") and a.value < 1:
             continue
         ok.append(a)

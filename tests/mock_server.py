@@ -166,7 +166,7 @@ region: {{x1: 1.0, x2: 50.0, y1: 0.0, y2: 33.0}}, lines:[ {lines} ], legend: "FA
             return "Error: Please enter correct password."
         typ, _, val = trans.partition(",")
         f = self.f
-        if typ.endswith("COUNT"):
+        if typ.endswith("COUNT") and typ[:1] == "S" and typ[1:2].isdigit():
             k = int(typ[1])
             n = int(val) - f.machines[k]
             if f.machines_on_order(k) and n > 0:

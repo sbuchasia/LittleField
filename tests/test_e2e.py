@@ -43,7 +43,7 @@ def test_full_season(isolated):
     assert set(rcs) == {0}, log[-3000:]
     assert "FAIL" not in log and "ERROR" not in log
     assert game.f.net_cash > 1_500_000, f"net cash {game.f.net_cash:,.0f}"
-    assert game.f.contract == 2
+    assert game.f.contract in (2, 3)
     # password travelled with every change
     assert game.posts and all("pwd=pw" in b or "amount=" in b for _, b in game.posts)
 
@@ -84,7 +84,7 @@ def test_order_controls_with_other_names(isolated):
     run_game(game, runs=40)
     log = (isolated / "actions.log").read_text()
     assert "edits=on" in log and "FAIL" not in log
-    assert game.f.wip_limit < 300 and game.f.contract == 2
+    assert game.f.wip_limit < 300 and game.f.contract in (2, 3) and game.f.lots_per_job == 3
 
 
 def test_no_loan_form_buys_from_cash(isolated):
