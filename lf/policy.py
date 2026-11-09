@@ -70,6 +70,7 @@ DEFAULTS = dict(
     allow_loans=False,
     max_debt=600_000,
     low_frac_prior=0.6,
+    peak_prior=0,              # if >0, plan for at least this peak demand (jobs/day)
     low_until=240,             # lower plateau after day 180 lasts until this day
     zero_at=300,               # demand reaches ~0 on this day        # prior: post-day-180 demand as share of peak
     hold_after_day=55,
@@ -113,6 +114,13 @@ class Forecaster:
         else:
             self.a, self.b = 3.69, 0.521
         self.peak = self.a + self.b * 90
+        if cfg.get("peak_prior"):
+            # planning assumption from previous years (seniors: peak ~70 jobs/day). Growth is
+            # re-sloped so the ramp reaches that peak by day 90; real orders still override later.
+            pp = float(cfg["peak_prior"])
+            if pp > self.peak:
+                self.b = max(self.b, (pp - self.a) / 90.0)
+                self.peak = pp
         self.day = obs.day
         recent = [v for d, v in self.clean.items() if obs.day - 10 <= d <= obs.day]
         self.recent_mean = sum(recent) / len(recent) if len(recent) >= 5 else None
