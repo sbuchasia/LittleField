@@ -1,5 +1,5 @@
 {
- "runs": 22,
+ "runs": 23,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -90,8 +90,33 @@
    "ts": "2026-11-09T19:42:34+00:00",
    "day": 57.0,
    "act": "loan -> 999999  (unfunded high-payback capacity $2,910,000)"
+  },
+  {
+   "ts": "2026-11-09T19:52:46+00:00",
+   "day": 58.0,
+   "act": "buy S1 -> 15  (want 24 (\u03bbplan 53.5/d, backlog 0h))"
+  },
+  {
+   "ts": "2026-11-09T19:52:46+00:00",
+   "day": 58.0,
+   "act": "buy S2 -> 8  (want 12 (\u03bbplan 53.5/d, backlog 263h))"
+  },
+  {
+   "ts": "2026-11-09T19:52:46+00:00",
+   "day": 58.0,
+   "act": "buy S3 -> 11  (want 18 (\u03bbplan 53.5/d, backlog 422h))"
+  },
+  {
+   "ts": "2026-11-09T19:52:46+00:00",
+   "day": 58.0,
+   "act": "loan -> 300001  (unfunded high-payback capacity $1,830,000)"
+  },
+  {
+   "ts": "2026-11-09T19:52:46+00:00",
+   "day": 58.0,
+   "act": "roq -> 7380  (EOQ 5768, cover 4.5d)"
   }
  ],
- "last_day": 57.0,
- "last": "2026-11-09T19:42:34+00:00 day 57.0 cash $68,710 debt $1,200,000 machines {1: 9, 2: 6, 3: 9} on-order {1: 0, 2: 0, 3: 0} inv 8040 rop/roq 8160/5280 contract 1 wip 8 rule pri4 edits=on"
+ "last_day": 58.0,
+ "last": "2026-11-09T19:52:46+00:00 day 58.0 cash $1,017,250 debt $2,199,999 machines {1: 9, 2: 6, 3: 9} on-order {1: 0, 2: 0, 3: 0} inv 8040 rop/roq 8160/5280 contract 1 wip 8 rule pri4 edits=on"
 }
