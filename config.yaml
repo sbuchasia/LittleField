@@ -21,7 +21,8 @@ policy:
   util_target: 0.75       # plan machines for 75% utilisation (c3 needs short queues)
   wip_days: 0.2           # WIP cap = throughput x 0.2 day -> lead time inside the 6h quote
   flush_days: 6           # clear the day-50 backlog over ~6 days
-  max_debt: 1200000       # tested 0.9M to 3M: with plan-for-70, 1.2M is best unless demand is confirmed high
+  max_debt: 2500000       # 10 Nov 01:05: raised from 1.2M on the team's call (seniors: demand high).
+                          # Twin with plan-for-70: high demand $5.10M vs $4.73M; forecast demand $3.48M vs $3.84M
   peak_prior: 70          # 10 Nov 00:55: plan capacity for a 70 jobs/day peak (seniors' data).
                           # Twin: demand low/forecast/high $2.90M/$3.84M/$4.73M (was $2.92M/$3.45M/$3.59M)
   max_spend_per_run: 3000000
