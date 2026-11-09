@@ -59,3 +59,6 @@
   OK   buy S3 -> 11  (want 18 (λplan 53.5/d, backlog 422h)) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 2 machines were purchased for station 3 
   OK   loan -> 300001  (unfunded high-payback capacity $1,830,000) |  Loan Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Debt was increased by $300,001. Total debt is now $2,500,000 
   OK   roq -> 7380  (EOQ 5768, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 123 x 60 = 7380 units 
+2026-11-09T20:03:03+00:00 day 58.0 cash $402,251 debt $2,500,000 machines {1: 9, 2: 6, 3: 9} on-order {1: 6, 2: 2, 3: 2} inv 8040 rop/roq 8160/7380 contract 1 wip 8 rule pri4 edits=on
+  OK   rop -> 13620  (D 2717 kits/d, lead 4d + 1.0d safety) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 227 x 60 = 13620 units 
+  OK   roq -> 12240  (EOQ 7446, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 204 x 60 = 12240 units 
