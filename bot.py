@@ -166,6 +166,11 @@ def main(client=None, now=None) -> int:
                 lines.append("  no changes needed")
         st["last_day"] = snap.day
         st["last"] = head
+        if not dry and any(ln.startswith("  OK ") for ln in lines):
+            try:   # report cash/debt/machines as they stand AFTER this run's changes
+                snap = client.snapshot()
+            except Exception:  # noqa: BLE001
+                pass
         try:   # read the standings last, after all changes are made
             from lf.report import parse_standing
             standings = parse_standing(client.get("Standing"))
