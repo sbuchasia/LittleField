@@ -120,12 +120,15 @@ def parse_orders(h: str):
     lot = re.search(r"Lot size:\s*([\d,]+)\s*kits,\s*or\s*(\d+)\s*lots? per job", t)
     con = re.search(r"Current contract:\s*(\d+)", t)
     controls = parse_controls(h)
-    return dict(
-        wip_limit=int(_num(wip.group(1))) if wip else 300,
-        lots_per_job=int(lot.group(2)) if lot else 1,
-        contract=int(con.group(1)) if con else 1,
-        controls=controls,
-    )
+    w = int(_num(wip.group(1))) if wip else 300
+    l = int(lot.group(2)) if lot else 1
+    c = int(con.group(1)) if con else 1
+    if not controls and re.search(r"window\.open\(\s*['\"]OrdersForm['\"]", h):
+        # live game (9 Nov): order settings open the classic OrdersForm popup (maxwip, lotCount, contractOpt)
+        controls = [Control("form", "OrdersForm", str(w), "WIP"),
+                    Control("form", "OrdersForm", str(l), "LOT"),
+                    Control("form", "OrdersForm", str(c), "CONTRACT")]
+    return dict(wip_limit=w, lots_per_job=l, contract=c, controls=controls)
 
 
 def parse_material(h: str):
@@ -177,6 +180,8 @@ def parse_cash(h: str):
     m = re.search(r"\(\s*[\"']([^\"']+)[\"'][^)]*[\"']MOREDEBT[\"']", h)
     if m:
         loan_url = m.group(1)
+    elif re.search(r"window\.open\(\s*['\"]LoanForm['\"]", h):
+        loan_url = "LoanForm"   # live game: 'change debt' button opens the classic LoanForm popup
     return dict(debt=_num(debt.group(1)) if debt else 0.0, loan_url=loan_url)
 
 
@@ -222,6 +227,7 @@ class LittlefieldClient:
         day, cash, team = parse_status(self.get("LTStatus"))
         cs = parse_cash(self.get(f"CashStatus?team={self.team}"))
         o = parse_orders(self.get("OrdersMenu"))
+        self.order_state = dict(wip=o["wip_limit"], lots=o["lots_per_job"], contract=o["contract"])
         m = parse_material(self.get("MaterialMenu"))
         st = {k: parse_station(self.get(f"StationMenu?id={k}")) for k in (1, 2, 3)}
         controls = {}
@@ -249,8 +255,52 @@ class LittlefieldClient:
         return snap
 
     # ---------- write ----------
+    def _confirm_password(self, r):
+        """If the game answers with a password confirmation form, fill it in and submit it."""
+        import html as _h
+        for fm in re.finditer(r"<form[^>]*>(.*?)</form>", r.text, re.I | re.S):
+            if not re.search(r"type\s*=\s*['\"]?password", fm.group(0), re.I):
+                continue
+            act = re.search(r"action\s*=\s*['\"]?([^'\" >]+)", fm.group(0), re.I)
+            data = {}
+            for inp in re.finditer(r"<input[^>]*>", fm.group(1), re.I):
+                tag = inp.group(0)
+                nm = re.search(r"name\s*=\s*['\"]?([^'\" >]+)", tag, re.I)
+                if not nm:
+                    continue
+                tp = (re.search(r"type\s*=\s*['\"]?(\w+)", tag, re.I) or [None, "text"])[1].lower()
+                val = re.search(r"value\s*=\s*['\"]([^'\"]*)['\"]", tag, re.I) or re.search(r"value\s*=\s*([^ >]+)", tag, re.I)
+                if tp == "password":
+                    data[nm.group(1)] = self.password
+                elif tp in ("radio", "checkbox"):
+                    if re.search(r"checked", tag, re.I):
+                        data[nm.group(1)] = _h.unescape(val.group(1)) if val else "on"
+                elif tp != "button":
+                    data.setdefault(nm.group(1), _h.unescape(val.group(1)) if val else "")
+            url = (act.group(1) if act else r.url.split("/")[-1]).lstrip("/").removeprefix("Littlefield/")
+            r = self.s.post(f"{self.base}/Littlefield/{url}", data=data, timeout=self.timeout)
+            r.raise_for_status()
+            break
+        return r
+
+    def submit_orders_form(self, wip: int, lots: int, contract: int) -> str:
+        time.sleep(self.pause)
+        r = self.s.post(f"{self.base}/Littlefield/OrdersForm", timeout=self.timeout, data=dict(
+            maxwip=str(int(wip)), lotCount=str(int(lots)), contractOpt=str(int(contract)), submit="ok"))
+        r.raise_for_status()
+        r = self._confirm_password(r)
+        t = _text(r.text)
+        if re.search(r"error|incorrect|not allowed|invalid", t, re.I):
+            raise GameError(t[:200])
+        return t[:160] or "ok"
+
     def submit(self, control: Control, value) -> str:
         """POST a change exactly as the page's confirm dialog does."""
+        if control.fn == "form" and control.url == "OrdersForm":
+            o = self.order_state
+            key = {"WIP": "wip", "LOT": "lots", "CONTRACT": "contract"}[control.trans]
+            o[key] = int(value)
+            return self.submit_orders_form(o["wip"], o["lots"], o["contract"])
         time.sleep(self.pause)
         body = f"trans={control.trans},{value}&pwd={requests.utils.quote(self.password, safe='')}&submit=confirm"
         r = self.s.post(f"{self.base}/Littlefield/{control.url}", data=body, timeout=self.timeout,
@@ -269,6 +319,7 @@ class LittlefieldClient:
                         data=f"submit={kind}&{kind}string={kind}&amount={int(amount)}", timeout=self.timeout,
                         headers={"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"})
         r.raise_for_status()
-        if "Error" in r.text:
+        r = self._confirm_password(r)
+        if "Error" in r.text or re.search(r"incorrect|not allowed", r.text, re.I):
             raise GameError(_text(r.text)[:200])
         return _text(r.text)[:200]
