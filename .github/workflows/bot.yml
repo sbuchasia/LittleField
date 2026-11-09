@@ -1,8 +1,8 @@
 name: littlefield-bot
 
+# Manual single runs only. The automatic schedule lives in loop.yml (GitHub cron never fired here).
+
 on:
-  schedule:
-    - cron: "4,14,24,34,44,54 * * * *"   # every 10 min, off the busy :00 slot (re-registered 9 Nov 22:00 IST)
   workflow_dispatch:
     inputs:
       dry_run:
