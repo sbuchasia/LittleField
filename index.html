@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bottleneckbusters Factory</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f3f4f2;--panel:#fff;--ink:#1d2326;--muted:#5d686d;--rule:#d9dddb;--accent:#c4561b;--a2:#1f5f8b;--a3:#7d8c2a;--ok:#2f7d4f;--bad:#b3261e;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#15191b;--panel:#1d2326;--ink:#e6e9e7;--muted:#97a2a6;--rule:#323a3d;--accent:#e57a3c;--a2:#5aa3d6;--a3:#b3c25a;--ok:#5cba7e;--bad:#ef7b72}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans)}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 48px;display:grid;gap:20px}
+h1{margin:0;font-size:28px}h2{margin:0 0 8px;font-size:17px}
+.sub{color:var(--muted);font-size:13px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.k{background:var(--panel);padding:12px 14px}.k b{display:block;font:500 21px var(--mono);font-variant-numeric:tabular-nums}.k span{font-size:12px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--rule);padding:16px;min-width:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:760px){.two{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font:13px var(--mono)}td,th{padding:5px 6px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:500}.me td{color:var(--accent);font-weight:600}.num{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{max-height:420px;overflow:auto}.fail{color:var(--bad)}.okc{color:var(--ok)}
+.pill{font:500 11px var(--mono);padding:2px 7px;border-radius:3px;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.pill.stale{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+canvas{max-height:260px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Bottleneckbusters factory</h1>
+    <div class="sub">Live from the Littlefield bot · updates every ~10 min · <span id="upd">loading…</span> <span id="fresh" class="pill">live</span></div>
+  </header>
+  <section class="strip">
+    <div class="k"><b id="kDay">–</b><span>Game day</span></div>
+    <div class="k"><b id="kRank">–</b><span>Overall rank</span></div>
+    <div class="k"><b id="kNet">–</b><span>Net (cash − debt)</span></div>
+    <div class="k"><b id="kCash">–</b><span>Cash on hand</span></div>
+    <div class="k"><b id="kDebt">–</b><span>Debt</span></div>
+    <div class="k"><b id="kCon">–</b><span>Contract · lots · WIP cap</span></div>
+    <div class="k"><b id="kMac">–</b><span>Machines S/T/T (+on order)</span></div>
+  </section>
+  <div class="two">
+    <section class="panel"><h2>Net cash (cash − debt)</h2><canvas id="cNet"></canvas></section>
+    <section class="panel"><h2>Rank (lower is better)</h2><canvas id="cRank"></canvas></section>
+  </div>
+  <div class="two">
+    <section class="panel"><h2>Machines installed</h2><canvas id="cMac"></canvas></section>
+    <section class="panel"><h2>Overall standing <span class="sub" id="stTs"></span></h2><div class="scroll"><table id="tStand"></table></div></section>
+  </div>
+  <section class="panel"><h2>Every action the bot has taken</h2><div class="scroll"><table id="tActs"></table></div></section>
+  <div class="sub">Data: <a href="https://github.com/sbuchasia/LittleField/blob/main/logs/actions.log">logs/actions.log</a> · <a href="https://github.com/sbuchasia/LittleField/actions">runs</a></div>
+</div>
+<script>
+const RAW="https://raw.githubusercontent.com/sbuchasia/LittleField/main/logs/status.json";
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const money=v=>v==null?"–":(v<0?"−$":"$")+Math.abs(v).toLocaleString("en-US",{maximumFractionDigits:0});
+const charts={};
+function line(id,labels,sets,opts={}){
+  const cfg={type:"line",data:{labels,datasets:sets.map(([l,d,c])=>({label:l,data:d,borderColor:css(c),backgroundColor:css(c),pointRadius:0,borderWidth:2,stepped:opts.step||false,spanGaps:true}))},
+    options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:sets.length>1,labels:{color:css("--muted")}}},
+      scales:{x:{ticks:{color:css("--muted"),maxTicksLimit:8},grid:{color:css("--rule")},title:{display:true,text:"game day",color:css("--muted")}},
+              y:{reverse:!!opts.rev,ticks:{color:css("--muted"),callback:opts.fmt||(v=>v)},grid:{color:css("--rule")}}}}};
+  if(charts[id]){charts[id].data=cfg.data;charts[id].update();}else charts[id]=new Chart(document.getElementById(id),cfg);
+}
+async function load(){
+  let d;
+  try{d=await (await fetch(RAW+"?t="+Date.now(),{cache:"no-store"})).json();}
+  catch(e){try{d=await (await fetch("logs/status.json?t="+Date.now())).json();}catch(e2){document.getElementById("upd").textContent="could not load data";return;}}
+  const H=d.history||[];const L=H[H.length-1]||{};
+  const upd=new Date(d.updated);document.getElementById("upd").textContent="last run "+upd.toLocaleString();
+  const stale=(Date.now()-upd)>25*60*1000;const f=document.getElementById("fresh");f.textContent=stale?"no run for 25+ min":"live";f.className="pill"+(stale?" stale":"");
+  document.getElementById("kDay").textContent=L.day!=null?Math.floor(L.day):"–";
+  document.getElementById("kRank").textContent=L.rank?`${L.rank} / ${L.teams}`:"–";
+  document.getElementById("kNet").textContent=money(L.net);document.getElementById("kCash").textContent=money(L.cash);document.getElementById("kDebt").textContent=money(L.debt);
+  document.getElementById("kCon").textContent=L.contract?`C${L.contract} · ${L.lots}x${60/L.lots} · ${L.wip}`:"–";
+  const m=L.machines||{},o=L.on_order||{};document.getElementById("kMac").textContent=L.machines?`${m[1]}/${m[2]}/${m[3]}`+((o[1]||o[2]||o[3])?` (+${o[1]||0}/${o[2]||0}/${o[3]||0})`:""):"–";
+  const lab=H.map(p=>p.day);
+  line("cNet",lab,[["net",H.map(p=>p.net),"--accent"],["cash",H.map(p=>p.cash),"--a2"],["debt",H.map(p=>-p.debt),"--muted"]],{fmt:v=>(v/1e6).toFixed(1)+"M"});
+  line("cRank",lab,[["rank",H.map(p=>p.rank),"--accent"]],{rev:true,step:true});
+  line("cMac",lab,[["stuffer",H.map(p=>(p.machines||{})[1]),"--a2"],["tester",H.map(p=>(p.machines||{})[2]),"--accent"],["tuner",H.map(p=>(p.machines||{})[3]),"--a3"]],{step:true});
+  const S=d.standings||[];document.getElementById("stTs").textContent=d.standings_ts?"("+new Date(d.standings_ts).toLocaleTimeString()+")":"";
+  document.getElementById("tStand").innerHTML="<tr><th>#</th><th>Team</th><th class=num>Net cash</th></tr>"+S.map(s=>`<tr class="${s.team===d.team?"me":""}"><td>${s.rank}</td><td>${s.team}</td><td class=num>${money(s.net)}</td></tr>`).join("");
+  const A=(d.actions||[]).slice().reverse();
+  document.getElementById("tActs").innerHTML="<tr><th>Time (IST)</th><th>Day</th><th></th><th>Action</th></tr>"+A.map(a=>`<tr><td>${new Date(a.ts).toLocaleString("en-IN",{timeZone:"Asia/Kolkata",hour12:false})}</td><td>${a.day}</td><td class="${a.ok?"okc":"fail"}">${a.ok?"OK":"FAIL"}</td><td>${a.text.replace(/</g,"&lt;")}</td></tr>`).join("")||"<tr><td colspan=4>No actions recorded yet (recording started 10 Nov, 00:10 IST)</td></tr>";
+}
+load();setInterval(load,120000);
+</script>
+</body>
+</html>

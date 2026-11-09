@@ -127,6 +127,12 @@ class MockGame:
 <B>Purchase lead time: </B>3 day(s)
  {on_txt}<div class='clearboth'> </div></BODY></HTML>"""
 
+    def standing(self):
+        net = self.f.cash - self.f.debt
+        return ("<HTML><BODY><table><tr><td><B>Rank</B></td><td><B>Team</B></td><td><b>Cash Balance ($)</b></td></tr>"
+                f"<tr><td>1</td><td>{self.team}</td><td>{net:,.0f}</td></tr>"
+                "<tr><td>2</td><td>othersteam</td><td>-1,000,000</td></tr></table></BODY></HTML>")
+
     def cash(self):
         f = self.f
         loan = ""
@@ -232,6 +238,7 @@ def make_handler(game: MockGame):
                     "/Littlefield/OrdersMenu": game.orders,
                     "/Littlefield/MaterialMenu": game.material,
                     "/Littlefield/CashStatus": game.cash,
+                    "/Littlefield/Standing": game.standing,
                 }
                 if p in routes:
                     return self._send(200, routes[p]())

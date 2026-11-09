@@ -190,6 +190,11 @@ def parse_cash(h: str):
                 on_hand=_num(onhand.group(1)) if onhand else None)
 
 
+def _check_session(text: str):
+    if re.search(r"return to your log in page|log in again", text, re.I):
+        raise GameError("session lost: the game asked to log in again, change not applied")
+
+
 class LittlefieldClient:
     def __init__(self, team: str, password: str, base: str = "https://op2.responsive.net",
                  institution: str = "iimb", timeout: float = 30.0, pause: float = 0.3):
@@ -297,6 +302,7 @@ class LittlefieldClient:
             maxwip=str(int(wip)), lotCount=str(int(lots)), contractOpt=str(int(contract)), submit="ok"))
         r.raise_for_status()
         r = self._confirm_password(r)
+        _check_session(r.text)
         t = _text(r.text)
         if re.search(r"error|incorrect|not allowed|invalid", t, re.I):
             raise GameError(t[:200])
@@ -316,6 +322,7 @@ class LittlefieldClient:
                                  "X-Requested-With": "XMLHttpRequest"})
         r.raise_for_status()
         txt = r.text
+        _check_session(txt)
         if "Error:" in txt:
             raise GameError(txt.split("Error:")[-1].strip()[:200])
         return txt.split("Success:")[-1].strip()[:200] if "Success:" in txt else _text(txt)[:200]
@@ -328,6 +335,7 @@ class LittlefieldClient:
                         headers={"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"})
         r.raise_for_status()
         r = self._confirm_password(r)
+        _check_session(r.text)
         if "Error" in r.text or re.search(r"incorrect|not allowed", r.text, re.I):
             raise GameError(_text(r.text)[:200])
         return _text(r.text)[:200]

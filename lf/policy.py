@@ -69,7 +69,9 @@ DEFAULTS = dict(
     sell_from_day=200,
     allow_loans=False,
     max_debt=600_000,
-    low_frac_prior=0.6,        # prior: post-day-180 demand as share of peak
+    low_frac_prior=0.6,
+    low_until=240,             # lower plateau after day 180 lasts until this day
+    zero_at=300,               # demand reaches ~0 on this day        # prior: post-day-180 demand as share of peak
     hold_after_day=55,
     no_edit_mode="hold",       # if contract/WIP can't be edited: "hold" cash or "invest" anyway
 )
@@ -122,14 +124,17 @@ class Forecaster:
         self.low = sum(low) / len(low) if len(low) >= 5 else self.peak * cfg["low_frac_prior"]
 
     def rate(self, t: float) -> float:
+        c = self.cfg
         if t <= 90:
             r = self.a + self.b * t
         elif t <= 180:
             r = self.peak
-        elif t <= 240:
+        elif t <= c["low_until"]:
             r = self.low
         else:
-            r = self.low * max(0.0, (GAME_END - t) / 60.0)
+            # decline from low_until to zero_at (previous year's data: rapid decline from day 211)
+            span = max(1.0, c["zero_at"] - c["low_until"])
+            r = self.low * max(0.0, (c["zero_at"] - t) / span)
         # if we have clean recent data near t, trust it over the curve
         if self.recent_mean is not None and abs(t - self.day) <= 3 and t > 90:
             r = self.recent_mean

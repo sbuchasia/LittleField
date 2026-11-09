@@ -4,6 +4,9 @@ dry_run: false            # true = log decisions, change nothing
 allow_loans: true         # borrow (20%/yr + 5% fee) to fund fast-payback capacity
 stop_after_day: 299.5
 
+# phone notifications: install the ntfy app and subscribe to this topic (free, no account)
+notify_topic: littlefield-bnb-5549f4
+
 # hard limits, applied after the policy
 max_spend_per_run: 2000000
 max_buy_per_station_per_run: 12

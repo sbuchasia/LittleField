@@ -131,6 +131,7 @@ def main(client=None, now=None) -> int:
                                          institution=os.environ.get("LF_INSTITUTION", "iimb"))
     lines = []
     rc = 0
+    snap, standings, err = None, [], None
     try:
         client.login()
         snap = client.snapshot()
@@ -165,9 +166,15 @@ def main(client=None, now=None) -> int:
                 lines.append("  no changes needed")
         st["last_day"] = snap.day
         st["last"] = head
+        try:   # read the standings last, after all changes are made
+            from lf.report import parse_standing
+            standings = parse_standing(client.get("Standing"))
+        except Exception:  # noqa: BLE001
+            standings = []
     except Exception as e:  # noqa: BLE001
         lines.append(f"{ts} ERROR {e}")
         lines.append(traceback.format_exc())
+        err = str(e)
         rc = 1
     finally:
         client.quit()
@@ -177,6 +184,9 @@ def main(client=None, now=None) -> int:
         f.write("\n".join(lines) + "\n")
     summary(lines)
     save_state(st)
+    if not dry:
+        from lf.report import after_run
+        after_run(cfg, LOG.parent, ts, snap, standings, lines, st["runs"], err)
     return rc
 
 
