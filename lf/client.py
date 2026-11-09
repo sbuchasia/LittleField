@@ -151,7 +151,10 @@ def parse_station(h: str):
     t = _text(h)
     n = re.search(r"Number of Installed Machines:\s*(\d+)", t)
     on = 0
-    if re.search(r"on order", t, re.I) and not re.search(r"no additional machines on order", t, re.I):
+    inst = re.search(r"(\d+)\s+more\s+machines?\s+(?:will|to)\s+be\s+installed", t, re.I)
+    if inst:   # live wording (9 Nov): "2 more machines will be installed in 2.50 days"
+        on = int(inst.group(1))
+    elif re.search(r"on order", t, re.I) and not re.search(r"no additional machines on order", t, re.I):
         m = re.search(r"(\d+)\s+(?:additional\s+)?machines?\b[^.]{0,60}?on order", t, re.I) or \
             re.search(r"on order[^.]{0,40}?(\d+)", t, re.I)
         on = int(m.group(1)) if m else 1   # unknown wording: assume something is pending
@@ -176,13 +179,15 @@ def parse_plot(h: str) -> dict:
 def parse_cash(h: str):
     t = _text(h)
     debt = re.search(r"Debt\s*(-?[\d,]+(?:\.\d+)?)", t)
+    onhand = re.search(r"Cash on Hand\s*(-?[\d,]+(?:\.\d+)?)", t)
     loan_url = None
     m = re.search(r"\(\s*[\"']([^\"']+)[\"'][^)]*[\"']MOREDEBT[\"']", h)
     if m:
         loan_url = m.group(1)
     elif re.search(r"window\.open\(\s*['\"]LoanForm['\"]", h):
         loan_url = "LoanForm"   # live game: 'change debt' button opens the classic LoanForm popup
-    return dict(debt=_num(debt.group(1)) if debt else 0.0, loan_url=loan_url)
+    return dict(debt=_num(debt.group(1)) if debt else 0.0, loan_url=loan_url,
+                on_hand=_num(onhand.group(1)) if onhand else None)
 
 
 class LittlefieldClient:
@@ -226,6 +231,9 @@ class LittlefieldClient:
     def snapshot(self, with_plots=True) -> Snapshot:
         day, cash, team = parse_status(self.get("LTStatus"))
         cs = parse_cash(self.get(f"CashStatus?team={self.team}"))
+        if cs.get("on_hand") is not None:
+            # the status bar shows cash net of debt; spendable cash is "Cash on Hand"
+            cash = cs["on_hand"]
         o = parse_orders(self.get("OrdersMenu"))
         self.order_state = dict(wip=o["wip_limit"], lots=o["lots_per_job"], contract=o["contract"])
         m = parse_material(self.get("MaterialMenu"))
