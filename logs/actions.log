@@ -172,3 +172,5 @@
   OK   roq -> 16140  (EOQ 8598, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 269 x 60 = 16140 units 
 2026-11-10T05:14:45+00:00 day 77.0 cash $202,287 debt $2,500,000 machines {1: 19, 2: 8, 3: 12} on-order {1: 1, 2: 0, 3: 0} inv 17880 rop/roq 16320/16140 contract 3 wip 10 rule pri4 edits=on
   no changes needed
+2026-11-10T05:24:55+00:00 day 77.0 cash $57,114 debt $2,500,000 machines {1: 19, 2: 8, 3: 12} on-order {1: 1, 2: 0, 3: 0} inv 17880 rop/roq 16320/16140 contract 3 wip 10 rule pri4 edits=on
+  OK   roq -> 3660  (EOQ 8598, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 61 x 60 = 3660 units 
