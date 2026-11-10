@@ -337,3 +337,5 @@
   OK   rop -> 15120  (D 3017 kits/d, lead 4d + 1.0d safety) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 252 x 60 = 15120 units 
 2026-11-10T19:13:20+00:00 day 106.0 cash $161,177 debt $2,500,000 machines {1: 24, 2: 10, 3: 14} on-order {1: 1, 2: 0, 3: 0} inv 18180 rop/roq 15120/9420 contract 3 wip 14 rule pri4 edits=on
   OK   roq -> 13620  (EOQ 7847, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 227 x 60 = 13620 units 
+2026-11-10T19:23:40+00:00 day 107.0 cash $178,476 debt $2,500,000 machines {1: 24, 2: 10, 3: 14} on-order {1: 1, 2: 0, 3: 0} inv 15240 rop/roq 15120/13620 contract 3 wip 14 rule pri4 edits=on
+  no changes needed
