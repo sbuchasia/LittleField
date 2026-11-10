@@ -1,5 +1,5 @@
 {
- "runs": 159,
+ "runs": 160,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -355,8 +355,13 @@
    "ts": "2026-11-10T19:03:01+00:00",
    "day": 106.0,
    "act": "rop -> 15120  (D 3017 kits/d, lead 4d + 1.0d safety)"
+  },
+  {
+   "ts": "2026-11-10T19:13:20+00:00",
+   "day": 106.0,
+   "act": "roq -> 13620  (EOQ 7847, cover 4.5d)"
   }
  ],
  "last_day": 106.0,
- "last": "2026-11-10T19:03:01+00:00 day 106.0 cash $137,271 debt $2,500,000 machines {1: 24, 2: 9, 3: 14} on-order {1: 1, 2: 1, 3: 0} inv 18180 rop/roq 19020/9420 contract 3 wip 14 rule pri4 edits=on"
+ "last": "2026-11-10T19:13:20+00:00 day 106.0 cash $161,177 debt $2,500,000 machines {1: 24, 2: 10, 3: 14} on-order {1: 1, 2: 0, 3: 0} inv 18180 rop/roq 15120/9420 contract 3 wip 14 rule pri4 edits=on"
 }
