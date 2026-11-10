@@ -369,3 +369,5 @@
   OK   repay -> 21080  (debt costs 20%, cash earns 10%) |  Loan Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Debt was decreased by $21,080. Total debt is now $2,316,362 
 2026-11-10T21:57:37+00:00 day 112.0 cash $355,753 debt $2,316,362 machines {1: 25, 2: 10, 3: 14} on-order {1: 0, 2: 0, 3: 0} inv 17040 rop/roq 15120/13620 contract 3 wip 14 rule pri4 edits=on
   OK   repay -> 21353  (debt costs 20%, cash earns 10%) |  Loan Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Debt was decreased by $21,353. Total debt is now $2,295,009 
+2026-11-10T22:07:57+00:00 day 112.0 cash $215,421 debt $2,295,009 machines {1: 25, 2: 10, 3: 14} on-order {1: 0, 2: 0, 3: 0} inv 17040 rop/roq 15120/13620 contract 3 wip 14 rule pri4 edits=on
+  no changes needed
