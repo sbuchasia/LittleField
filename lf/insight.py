@@ -77,6 +77,8 @@ def analyse(snap, plan_rate: float | None = None) -> dict:
     hot = [k for k, v in u3.items() if v is not None and v > 90]
     if hot:
         w.append("station(s) " + ",".join(map(str, hot)) + " over 90% busy")
+    r["orders_by_day"] = {str(x): jobin[x] for x in sorted(jobin) if x >= day - 4}
+    r["revjob_by_day"] = {str(x): round(rev[x]) for x in sorted(rev) if x >= day - 4}
     r["warnings"] = w
     return r
 
