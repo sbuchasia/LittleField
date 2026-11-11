@@ -90,7 +90,7 @@ async function load(){
   const W=I.warnings||[];const we=document.getElementById("warn");
   we.innerHTML=I.day==null?"No analysis yet (starts with the next run).":(W.length?W.map(w=>`<div class="fail">⚠ ${w.replace(/</g,"&lt;")}</div>`).join(""):`<div class="okc">✓ Real orders, lead times, revenue per job and utilisation all match the plan (day ${I.day}).</div>`);
   const R=d.rivals;const re=document.getElementById("rivals");
-  if(!R){re.textContent="Starts with the next run.";}else{
+  if(!R){re.textContent="Starts with the next run.";}else if(!R.enough_data){re.textContent=`Collecting data: pace and projections appear once there are 8 game days of history (tracking since day 136, now day ${R.day}). Short windows are distorted by kit orders and machine purchases.`;}else{
     const f=v=>v==null?"–":(Math.abs(v)>=1e6?`$${(v/1e6).toFixed(2)}M`:`$${Math.round(v/1e3)}k`);
     const row=(r,b)=>`<tr${r.team===d.team?' style="font-weight:700"':''}><td>${r.rank}</td><td>${r.team.replace(/</g,"&lt;")}</td><td>${f(r.net)}</td><td>${r.rate==null?"–":f(r.rate)+"/d"}</td><td>${f(r.proj)}</td><td>${r.proj_rank??"–"}</td></tr>`;
     const hd='<tr><th>Rank</th><th>Team</th><th>Cash − debt</th><th>Pace (6 days)</th><th>Projected final</th><th>Proj. rank</th></tr>';
