@@ -44,6 +44,7 @@ canvas{max-height:260px}
     <div class="k"><b id="kLead">–</b><span>Lead time · revenue/job</span></div>
   </section>
   <section class="panel"><h2>What the game data says</h2><div id="warn" class="sub">–</div></section>
+  <section class="panel"><h2>Competitors: cash now, earning pace, projected finish</h2><div id="rivals" class="sub" style="overflow-x:auto">–</div></section>
   <div class="two">
     <section class="panel"><h2>Orders per day: real vs plan vs capacity</h2><canvas id="cDem"></canvas></section>
     <section class="panel"><h2>Station utilisation (3-day avg, %)</h2><canvas id="cUtil"></canvas></section>
@@ -88,6 +89,12 @@ async function load(){
   document.getElementById("kLead").textContent=I.lead_days!=null?`${(I.lead_days*24).toFixed(1)}h · $${I.rev_per_job??"?"}`:"–";
   const W=I.warnings||[];const we=document.getElementById("warn");
   we.innerHTML=I.day==null?"No analysis yet (starts with the next run).":(W.length?W.map(w=>`<div class="fail">⚠ ${w.replace(/</g,"&lt;")}</div>`).join(""):`<div class="okc">✓ Real orders, lead times, revenue per job and utilisation all match the plan (day ${I.day}).</div>`);
+  const R=d.rivals;const re=document.getElementById("rivals");
+  if(!R){re.textContent="Starts with the next run.";}else{
+    const f=v=>v==null?"–":(Math.abs(v)>=1e6?`$${(v/1e6).toFixed(2)}M`:`$${Math.round(v/1e3)}k`);
+    const row=(r,b)=>`<tr${r.team===d.team?' style="font-weight:700"':''}><td>${r.rank}</td><td>${r.team.replace(/</g,"&lt;")}</td><td>${f(r.net)}</td><td>${r.rate==null?"–":f(r.rate)+"/d"}</td><td>${f(r.proj)}</td><td>${r.proj_rank??"–"}</td></tr>`;
+    const hd='<tr><th>Rank</th><th>Team</th><th>Cash − debt</th><th>Pace (6 days)</th><th>Projected final</th><th>Proj. rank</th></tr>';
+    re.innerHTML=`<div>Leaderboard now (top ${R.table.length-1} + us)</div><table>${hd}${R.table.map(row).join("")}</table><div style="margin-top:8px">Best projected finishers</div><table>${hd}${R.proj_top.map(row).join("")}</table><div style="margin-top:6px">Projection = cash now + pace × days left at peak + ~60 days at peak pace for the drop after day 180. Rough: kit orders make pace jumpy.</div>`;}
   const lab=H.map(p=>p.day);
   line("cDem",lab,[["real orders",H.map(p=>p.demand??null),"--accent"],["shipped",H.map(p=>p.shipped??null),"--a3"],["plan",H.map(p=>p.plan??null),"--muted"],["capacity",H.map(p=>p.capacity??null),"--a2"]]);
   line("cUtil",lab,[["stuffer",H.map(p=>(p.util||{})[1]??null),"--a2"],["tester",H.map(p=>(p.util||{})[2]??null),"--accent"],["tuner",H.map(p=>(p.util||{})[3]??null),"--a3"]]);

@@ -102,6 +102,12 @@ def record(path: Path, ts: str, snap, standings: list[dict], acts_done: list[str
     if standings:
         data["standings"] = standings
         data["standings_ts"] = ts
+        try:   # every team's cash over time -> earning rate, spending, projected finish
+            from lf import rivals
+            rv = rivals.update(path.parent / "rivals.json", snap.day, standings)
+            data["rivals"] = rivals.analyse(rv, snap.day, team)
+        except Exception as e:  # noqa: BLE001
+            data["rivals_error"] = str(e)
     data["updated"] = ts
     path.parent.mkdir(exist_ok=True)
     path.write_text(json.dumps(data, separators=(",", ":")))
