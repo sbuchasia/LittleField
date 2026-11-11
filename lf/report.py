@@ -74,7 +74,8 @@ def _load(path: Path) -> dict:
         return backfill(path.parent / "actions.log")
 
 
-def record(path: Path, ts: str, snap, standings: list[dict], acts_done: list[str], fails: list[str]) -> dict:
+def record(path: Path, ts: str, snap, standings: list[dict], acts_done: list[str], fails: list[str],
+           insight: dict | None = None) -> dict:
     data = _load(path)
     team = getattr(snap, "team", None)
     me = next((s for s in standings if team and s["team"] == team), None)
@@ -83,6 +84,13 @@ def record(path: Path, ts: str, snap, standings: list[dict], acts_done: list[str
                  contract=snap.contract, wip=snap.wip_limit, lots=snap.lots_per_job,
                  inventory=snap.inventory, rank=me["rank"] if me else None,
                  teams=len(standings) or None)
+    if insight:
+        point.update(demand=insight.get("demand"), shipped=insight.get("shipped"),
+                     capacity=insight.get("capacity"), plan=insight.get("plan_rate"),
+                     util=insight.get("util"), lead_h=(round(insight["lead_days"] * 24, 1)
+                                                       if insight.get("lead_days") is not None else None),
+                     rev_job=insight.get("rev_per_job"))
+        data["insight"] = insight
     data["team"] = team
     hist = [h for h in data.get("history", []) if h.get("ts") != ts]   # backfill may already hold this run
     data["history"] = (hist + [point])[-MAX_HISTORY:]
@@ -114,7 +122,8 @@ def _money(v):
     return f"-${abs(v):,.0f}" if v < 0 else f"${v:,.0f}"
 
 
-def after_run(cfg: dict, log_dir: Path, ts: str, snap, standings, lines: list[str], runs: int, error: str | None):
+def after_run(cfg: dict, log_dir: Path, ts: str, snap, standings, lines: list[str], runs: int, error: str | None,
+              insight: dict | None = None):
     try:
         acts = [ln.strip()[5:].split(" | ")[0].strip() for ln in lines if ln.strip().startswith("OK ")]
         fails = [ln.strip()[5:].strip() for ln in lines if ln.strip().startswith("FAIL")]
@@ -123,7 +132,12 @@ def after_run(cfg: dict, log_dir: Path, ts: str, snap, standings, lines: list[st
             if error:
                 notify(topic, "Littlefield bot ERROR", error[:300], "warning", "high")
             return
-        p = record(log_dir / "status.json", ts, snap, standings or [], acts, fails)
+        prev_warn = (_load(log_dir / "status.json").get("insight") or {}).get("warnings") or []
+        p = record(log_dir / "status.json", ts, snap, standings or [], acts, fails, insight)
+        warn = (insight or {}).get("warnings") or []
+        if warn and set(warn) != set(prev_warn):
+            notify(topic, f"Littlefield: real data disagrees with plan (day {p['day']:.0f})",
+                   "\n".join(warn)[:900], "warning", "high")
         rank = f"rank {p['rank']}/{p['teams']}" if p["rank"] else "rank n/a"
         state = (f"Day {p['day']:.0f} | net {_money(p['net'])} (cash {_money(p['cash'])}, debt {_money(p['debt'])}) | "
                  f"{rank} | contract {p['contract']} | machines {p['machines']}")

@@ -132,6 +132,7 @@ def main(client=None, now=None) -> int:
     lines = []
     rc = 0
     snap, standings, err = None, [], None
+    insight = None
     try:
         client.login()
         snap = client.snapshot()
@@ -141,6 +142,16 @@ def main(client=None, now=None) -> int:
                 f"rop/roq {snap.rop}/{snap.roq} contract {snap.contract} wip {snap.wip_limit} "
                 f"rule {snap.rule} edits={'on' if obs.can_edit_orders else 'OFF'}")
         lines.append(head)
+        try:   # what the game's own data says, next to what the bot plans for
+            from lf.insight import analyse, line as insight_line
+            from lf.policy import DEFAULTS, Forecaster
+            pcfg = {**DEFAULTS, **cfg.get("policy", {})}
+            plan = Forecaster(obs, pcfg).max_rate(snap.day, snap.day + pcfg.get("plan_ahead", 7))
+            insight = analyse(snap, plan)
+            lines.append(insight_line(insight))
+        except Exception as e:  # noqa: BLE001
+            insight = None
+            lines.append(f"  insight unavailable: {e}")
         if snap.day >= cfg.get("stop_after_day", 299.5):
             lines.append("  game over or about to end: no actions")
         else:
@@ -191,7 +202,7 @@ def main(client=None, now=None) -> int:
     save_state(st)
     if not dry:
         from lf.report import after_run
-        after_run(cfg, LOG.parent, ts, snap, standings, lines, st["runs"], err)
+        after_run(cfg, LOG.parent, ts, snap, standings, lines, st["runs"], err, insight)
     return rc
 
 

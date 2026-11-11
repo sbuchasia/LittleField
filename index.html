@@ -40,7 +40,14 @@ canvas{max-height:260px}
     <div class="k"><b id="kDebt">–</b><span>Debt</span></div>
     <div class="k"><b id="kCon">–</b><span>Contract · lots · WIP cap</span></div>
     <div class="k"><b id="kMac">–</b><span>Machines S/T/T (+on order)</span></div>
+    <div class="k"><b id="kDem">–</b><span>Real orders/day (5-day avg)</span></div>
+    <div class="k"><b id="kLead">–</b><span>Lead time · revenue/job</span></div>
   </section>
+  <section class="panel"><h2>What the game data says</h2><div id="warn" class="sub">–</div></section>
+  <div class="two">
+    <section class="panel"><h2>Orders per day: real vs plan vs capacity</h2><canvas id="cDem"></canvas></section>
+    <section class="panel"><h2>Station utilisation (3-day avg, %)</h2><canvas id="cUtil"></canvas></section>
+  </div>
   <div class="two">
     <section class="panel"><h2>Net cash (cash − debt)</h2><canvas id="cNet"></canvas></section>
     <section class="panel"><h2>Rank (lower is better)</h2><canvas id="cRank"></canvas></section>
@@ -76,7 +83,14 @@ async function load(){
   document.getElementById("kNet").textContent=money(L.net);document.getElementById("kCash").textContent=money(L.cash);document.getElementById("kDebt").textContent=money(L.debt);
   document.getElementById("kCon").textContent=L.contract?`C${L.contract} · ${L.lots}x${60/L.lots} · ${L.wip}`:"–";
   const m=L.machines||{},o=L.on_order||{};document.getElementById("kMac").textContent=L.machines?`${m[1]}/${m[2]}/${m[3]}`+((o[1]||o[2]||o[3])?` (+${o[1]||0}/${o[2]||0}/${o[3]||0})`:""):"–";
+  const I=d.insight||{};
+  document.getElementById("kDem").textContent=I.demand!=null?`${I.demand}`+(I.plan_rate!=null?` (plan ${I.plan_rate})`:""):"–";
+  document.getElementById("kLead").textContent=I.lead_days!=null?`${(I.lead_days*24).toFixed(1)}h · $${I.rev_per_job??"?"}`:"–";
+  const W=I.warnings||[];const we=document.getElementById("warn");
+  we.innerHTML=I.day==null?"No analysis yet (starts with the next run).":(W.length?W.map(w=>`<div class="fail">⚠ ${w.replace(/</g,"&lt;")}</div>`).join(""):`<div class="okc">✓ Real orders, lead times, revenue per job and utilisation all match the plan (day ${I.day}).</div>`);
   const lab=H.map(p=>p.day);
+  line("cDem",lab,[["real orders",H.map(p=>p.demand??null),"--accent"],["shipped",H.map(p=>p.shipped??null),"--a3"],["plan",H.map(p=>p.plan??null),"--muted"],["capacity",H.map(p=>p.capacity??null),"--a2"]]);
+  line("cUtil",lab,[["stuffer",H.map(p=>(p.util||{})[1]??null),"--a2"],["tester",H.map(p=>(p.util||{})[2]??null),"--accent"],["tuner",H.map(p=>(p.util||{})[3]??null),"--a3"]]);
   line("cNet",lab,[["net",H.map(p=>p.net),"--accent"],["cash",H.map(p=>p.cash),"--a2"],["debt",H.map(p=>-p.debt),"--muted"]],{fmt:v=>(v/1e6).toFixed(1)+"M"});
   line("cRank",lab,[["rank",H.map(p=>p.rank),"--accent"]],{rev:true,step:true});
   line("cMac",lab,[["stuffer",H.map(p=>(p.machines||{})[1]),"--a2"],["tester",H.map(p=>(p.machines||{})[2]),"--accent"],["tuner",H.map(p=>(p.machines||{})[3]),"--a3"]],{step:true});
