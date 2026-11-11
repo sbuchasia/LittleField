@@ -573,3 +573,7 @@
   insight: orders 55.2/d (prev 52.3, plan 54.6) shipped 55.7/d capacity 72.7/d util 72.8%/69.5%/85.3% lead 6.8h rev/job 1187 of 1500
   WARN lead time 6.8h is over the 6h quote; jobs earn $1,187 avg, below the $1,500 price (late orders)
   OK   wip -> 18  (fixed by team (wip_fixed)) |  Orders Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Maximum WIP limit set to 18 jobs. 
+2026-11-11T10:35:52+00:00 day 138.0 cash $315,806 debt $1,456,274 machines {1: 25, 2: 10, 3: 14} on-order {1: 0, 2: 0, 3: 1} inv 5820 rop/roq 15120/13620 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 55.2/d (prev 52.3, plan 54.6) shipped 55.7/d capacity 72.7/d util 72.8%/69.5%/85.3% lead 6.8h rev/job 1187 of 1500
+  WARN lead time 6.8h is over the 6h quote; jobs earn $1,187 avg, below the $1,500 price (late orders)
+  no changes needed
