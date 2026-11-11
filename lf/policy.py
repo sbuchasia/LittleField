@@ -269,6 +269,8 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
     acts += buys
     unfunded = sum(PRICES[k][0] * (shortfall[k] - alloc[k]) for k in (1, 2, 3)
                    if shortfall[k] - alloc[k] > 0 and pays(k))
+    if cfg.get("no_buy"):      # team: no more machines -> never borrow for them, always repay spare cash
+        unfunded = 0
     if cfg["allow_loans"] and obs.can_edit_orders and unfunded > 0 and d < 150 and obs.debt < cfg["max_debt"]:
         amt = min(unfunded * 1.05, cfg["max_debt"] - obs.debt)
         if amt >= 50_000:

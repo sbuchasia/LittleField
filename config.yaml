@@ -1,7 +1,7 @@
 # Littlefield bot settings. Edit on GitHub and commit; the next run picks it up.
 
 dry_run: false            # true = log decisions, change nothing
-allow_loans: true         # borrow (20%/yr + 5% fee) to fund fast-payback capacity
+allow_loans: false        # 11 Nov 16:15 IST: no new borrowing (no more machine purchases)
 stop_after_day: 299.5
 
 # phone notifications: install the ntfy app and subscribe to this topic (free, no account)
@@ -10,7 +10,7 @@ notify_topic: littlefield-bnb-5549f4
 # hard limits, applied after the policy
 max_spend_per_run: 2000000
 max_buy_per_station_per_run: 0   # 11 Nov 16:00 IST: team said no machine purchases (bot bought 1 tuner at 15:24 during the cap-28 test)
-max_sell_per_run: 3
+max_sell_per_run: 6       # 11 Nov: end-game selling happens in the last ~15 days, so allow faster
 
 # policy knobs (defaults in lf/policy.py, tuned on the digital twin)
 # 9 Nov, 21:40: switched to split lots + contract 3 after testing the seniors' playbook.
@@ -30,6 +30,7 @@ policy:
   max_machines: 40
   safety_days: 1.0        # kit safety stock
   rule: pri4              # tester priority: fifo | pri2 | pri4
-  sell_from_day: 200
+  sell_from_day: 285       # 11 Nov 16:15 IST: was 200. Resale is $8-10k whenever we sell, so keep capacity until the end
+  no_buy: true            # 11 Nov 16:15 IST: no machine purchases; policy repays debt instead of saving for machines
   no_edit_mode: hold      # if contract/WIP never become editable: stop buying kits, keep cash
   hold_after_day: 55
