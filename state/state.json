@@ -1,5 +1,5 @@
 {
- "runs": 210,
+ "runs": 211,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -455,8 +455,13 @@
    "ts": "2026-11-11T02:34:16+00:00",
    "day": 121.0,
    "act": "repay -> 43477  (debt costs 20%, cash earns 10%)"
+  },
+  {
+   "ts": "2026-11-11T03:55:49+00:00",
+   "day": 124.0,
+   "act": "repay -> 42668  (debt costs 20%, cash earns 10%)"
   }
  ],
  "last_day": 124.0,
- "last": "2026-11-11T03:45:38+00:00 day 124.0 cash $349,836 debt $1,947,735 machines {1: 25, 2: 10, 3: 14} on-order {1: 0, 2: 0, 3: 0} inv 9840 rop/roq 15120/13620 contract 3 wip 14 rule pri4 edits=on"
+ "last": "2026-11-11T03:55:49+00:00 day 124.0 cash $377,068 debt $1,947,735 machines {1: 25, 2: 10, 3: 14} on-order {1: 0, 2: 0, 3: 0} inv 9840 rop/roq 15120/13620 contract 3 wip 14 rule pri4 edits=on"
 }
