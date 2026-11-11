@@ -12,7 +12,7 @@ from pathlib import Path
 
 PEAK_END = 180          # handout: flat demand until ~day 180
 AFTER_PEAK_DAYS = 60    # post-180 profit ~ 60 days at peak pace (lower plateau + decline), from our model
-WINDOW = 6              # game days used for the earning rate
+WINDOW = 10             # game days used for the earning rate (kit orders / purchases make short windows misleading)
 
 
 def update(path: Path, day: float, standings: list[dict]) -> dict:
@@ -56,7 +56,7 @@ def analyse(data: dict, day: float, me: str, top: int = 12) -> dict:
             if x1 - x0 == 1 and y1 - y0 < -60_000 and x1 >= day - 30:
                 spent.append((x1, round(y0 - y1)))
         proj = None
-        if rate is not None:
+        if rate is not None and len(win) >= 8:
             proj = net + rate * max(0, PEAK_END - day) + rate * AFTER_PEAK_DAYS
         rows.append(dict(team=team, net=round(net), rate=None if rate is None else round(rate),
                          proj=None if proj is None else round(proj), days=len(win),
@@ -72,13 +72,13 @@ def analyse(data: dict, day: float, me: str, top: int = 12) -> dict:
     if mine and mine not in show:
         show = show + [mine]
     return dict(day=day, teams=len(rows), window=WINDOW, me=mine, table=show,
-                proj_top=by_proj[:top], enough_data=bool(mine and mine["days"] >= 3))
+                proj_top=by_proj[:top], enough_data=bool(mine and mine["days"] >= 8))
 
 
 def line(a: dict) -> str:
     m = a.get("me") or {}
     if not a.get("enough_data"):
-        return f"  rivals: tracking {a['teams']} teams (rates after 3 game days of data)"
+        return f"  rivals: tracking {a['teams']} teams (rates after 8 game days of data)"
     lead = a["table"][0]
     best = a["proj_top"][0] if a["proj_top"] else None
     return (f"  rivals: us #{m.get('rank')} net {m.get('net'):,} at {m.get('rate') or 0:+,}/d -> "
