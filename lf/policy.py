@@ -198,9 +198,14 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
     if obs.can_edit_orders:
         # cap WIP so a new job's lead time stays inside the c2 quote. When demand
         # beats capacity this rejects the excess instead of letting every job go late.
-        cap = int(max(cfg["min_wip"], round(mu_now * cfg["wip_days"])))
-        if abs(cap - obs.wip_limit) >= max(2, 0.12 * obs.wip_limit):
-            acts.append(Action("wip", cap, reason=f"μ {mu_now:.1f} jobs/d x {cfg['wip_days']}d"))
+        if cfg.get("wip_fixed"):   # team's explicit choice overrides the formula
+            cap = int(cfg["wip_fixed"])
+            if cap != obs.wip_limit:
+                acts.append(Action("wip", cap, reason="fixed by team (wip_fixed)"))
+        else:
+            cap = int(max(cfg["min_wip"], round(mu_now * cfg["wip_days"])))
+            if abs(cap - obs.wip_limit) >= max(2, 0.12 * obs.wip_limit):
+                acts.append(Action("wip", cap, reason=f"μ {mu_now:.1f} jobs/d x {cfg['wip_days']}d"))
         tgt = cfg["target_contract"]
         if tgt == 3 and contract != 3 and lt_new <= cfg["c3_switch_lt"]:
             contract = 3
