@@ -9,7 +9,7 @@ notify_topic: littlefield-bnb-5549f4
 
 # hard limits, applied after the policy
 max_spend_per_run: 2000000
-max_buy_per_station_per_run: 12
+max_buy_per_station_per_run: 0   # 11 Nov 16:00 IST: team said no machine purchases (bot bought 1 tuner at 15:24 during the cap-28 test)
 max_sell_per_run: 3
 
 # policy knobs (defaults in lf/policy.py, tuned on the digital twin)
