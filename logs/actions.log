@@ -754,3 +754,7 @@
   insight: orders 55.3/d (prev 52.4, plan 53.9) shipped 55.8/d capacity 75.5/d util 69%/65.6%/67.4% lead 5.6h rev/job 1386 of 1500
   WARN jobs earn $1,386 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-11T18:27:06+00:00 day 155.0 cash $377,422 debt $884,557 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 5340 rop/roq 15120/13620 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 53/d (prev 55.6, plan 54.3) shipped 53/d capacity 75.5/d util 70.6%/66.1%/70.2% lead 5.7h rev/job 1352 of 1500
+  WARN jobs earn $1,352 avg, below the $1,500 price (late orders)
+  OK   repay -> 43022  (debt costs 20%, cash earns 10%) |  Loan Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Debt was decreased by $43,022. Total debt is now $841,535 
