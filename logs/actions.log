@@ -1276,3 +1276,7 @@
   insight: orders 44.2/d (prev 50.9, plan 49.5) shipped 44.3/d capacity 75.5/d util 59.6%/55.9%/56.8% lead 5.4h rev/job 1411 of 1500
   WARN jobs earn $1,411 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-12T17:05:02+00:00 day 202.0 cash $1,366,415 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 20220 rop/roq 17460/13620 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 45/d (prev 49.6, plan 49.3) shipped 44.2/d capacity 75.5/d util 60.4%/57.1%/54.8% lead 5.4h rev/job 1409 of 1500
+  WARN jobs earn $1,409 avg, below the $1,500 price (late orders)
+  OK   rop -> 14820  (D 2957 kits/d, lead 4d + 1.0d safety) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 247 x 60 = 14820 units 
