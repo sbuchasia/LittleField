@@ -926,3 +926,7 @@
   insight: orders 55.2/d (prev 52.4, plan 54.1) shipped 55.3/d capacity 75.5/d util 74.6%/69.7%/62.9% lead 5.3h rev/job 1417 of 1500
   WARN jobs earn $1,417 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-12T01:47:43+00:00 day 170.0 cash $312,372 debt $266,551 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 11820 rop/roq 15120/13620 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 55.2/d (prev 52.4, plan 54.1) shipped 55.3/d capacity 75.5/d util 74.6%/69.7%/62.9% lead 5.3h rev/job 1417 of 1500
+  WARN jobs earn $1,417 avg, below the $1,500 price (late orders)
+  no changes needed
