@@ -1237,3 +1237,6 @@
 2026-11-12T15:02:58+00:00 day 197.0 cash $1,100,108 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 19680 rop/roq 17460/13620 contract 3 wip 18 rule pri4 edits=on
   insight: orders 49.7/d (prev 52.1, plan 51) shipped 50/d capacity 75.5/d util 63.1%/59.4%/55.2% lead 5.3h rev/job 1425 of 1500
   no changes needed
+2026-11-12T15:13:09+00:00 day 198.0 cash $1,121,577 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 17340 rop/roq 17460/13620 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 48.5/d (prev 51.1, plan 50.6) shipped 47.7/d capacity 75.5/d util 60.2%/57.1%/53.3% lead 5.2h rev/job 1431 of 1500
+  no changes needed
