@@ -1895,3 +1895,7 @@
   insight: orders 28.8/d (prev 39, plan 32.8) shipped 29/d capacity 75.5/d util 37.1%/35.2%/33.9% lead 5.1h rev/job 1432 of 1500
   WARN demand fell 26% (39 -> 29/d)
   no changes needed
+2026-11-13T19:44:11+00:00 day 257.0 cash $3,068,600 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 8820 rop/roq 10080/9720 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 28.8/d (prev 39, plan 32.8) shipped 29/d capacity 75.5/d util 37.1%/35.2%/33.9% lead 5.1h rev/job 1432 of 1500
+  WARN demand fell 26% (39 -> 29/d)
+  no changes needed
