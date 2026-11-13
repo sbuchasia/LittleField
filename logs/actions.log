@@ -1667,3 +1667,7 @@
   insight: orders 41/d (prev 35.4, plan 42.6) shipped 41.3/d capacity 75.5/d util 55.9%/52.9%/66.1% lead 5.8h rev/job 1340 of 1500
   WARN demand rose 16% (35 -> 41/d); jobs earn $1,340 avg, below the $1,500 price (late orders)
   OK   roq -> 11520  (EOQ 7224, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 192 x 60 = 11520 units 
+2026-11-13T10:03:33+00:00 day 237.0 cash $2,488,911 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 18420 rop/roq 14820/11520 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 41/d (prev 35.4, plan 42.6) shipped 41.3/d capacity 75.5/d util 55.9%/52.9%/66.1% lead 5.8h rev/job 1340 of 1500
+  WARN demand rose 16% (35 -> 41/d); jobs earn $1,340 avg, below the $1,500 price (late orders)
+  no changes needed
