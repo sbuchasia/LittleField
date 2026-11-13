@@ -1883,3 +1883,7 @@
   insight: orders 30.5/d (prev 39.1, plan 33.5) shipped 30.5/d capacity 75.5/d util 36.2%/34.3%/36.2% lead 5.3h rev/job 1408 of 1500
   WARN demand fell 22% (39 -> 30/d); jobs earn $1,408 avg, below the $1,500 price (late orders)
   OK   rop -> 10080  (D 2013 kits/d, lead 4d + 1.0d safety) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 168 x 60 = 10080 units 
+2026-11-13T19:13:43+00:00 day 256.0 cash $3,035,428 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 10680 rop/roq 10080/9720 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 30.5/d (prev 39.1, plan 33.5) shipped 30.5/d capacity 75.5/d util 36.2%/34.3%/36.2% lead 5.3h rev/job 1408 of 1500
+  WARN demand fell 22% (39 -> 30/d); jobs earn $1,408 avg, below the $1,500 price (late orders)
+  no changes needed
