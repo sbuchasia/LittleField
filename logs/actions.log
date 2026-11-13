@@ -1972,3 +1972,7 @@
   insight: orders 23.8/d (prev 28.3, plan 25.3) shipped 23.8/d capacity 75.5/d util 31.5%/30.5%/35.7% lead 5.4h rev/job 1407 of 1500
   WARN demand fell 16% (28 -> 24/d); jobs earn $1,407 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-13T23:08:05+00:00 day 264.0 cash $3,244,917 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 8460 rop/roq 8040/6840 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 23.8/d (prev 28.3, plan 25.3) shipped 23.8/d capacity 75.5/d util 31.5%/30.5%/35.7% lead 5.4h rev/job 1407 of 1500
+  WARN demand fell 16% (28 -> 24/d); jobs earn $1,407 avg, below the $1,500 price (late orders)
+  no changes needed
