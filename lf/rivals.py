@@ -41,7 +41,7 @@ def _slope(pts):
     return sum((x - mx) * (y - my) for x, y in pts) / den if den else None
 
 
-def analyse(data: dict, day: float, me: str, top: int = 12) -> dict:
+def analyse(data: dict, day: float, me: str, top: int = 12, proj_n: int = 50) -> dict:
     day = int(day)
     rows = []
     for team, series in data.items():
@@ -72,7 +72,7 @@ def analyse(data: dict, day: float, me: str, top: int = 12) -> dict:
     if mine and mine not in show:
         show = show + [mine]
     return dict(day=day, teams=len(rows), window=WINDOW, me=mine, table=show,
-                proj_top=by_proj[:top], enough_data=bool(mine and mine["days"] >= 8))
+                proj_top=by_proj[:proj_n], enough_data=bool(mine and mine["days"] >= 8))
 
 
 def line(a: dict) -> str:
