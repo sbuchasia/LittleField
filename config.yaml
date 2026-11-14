@@ -10,7 +10,7 @@ notify_topic: littlefield-bnb-5549f4
 # hard limits, applied after the policy
 max_spend_per_run: 2000000
 max_buy_per_station_per_run: 0   # 11 Nov 16:00 IST: team said no machine purchases (bot bought 1 tuner at 15:24 during the cap-28 test)
-max_sell_per_run: 6       # 11 Nov: end-game selling happens in the last ~15 days, so allow faster
+max_sell_per_run: 10       # 11 Nov: end-game selling happens in the last ~15 days, so allow faster
 
 # policy knobs (defaults in lf/policy.py, tuned on the digital twin)
 # 9 Nov, 21:40: switched to split lots + contract 3 after testing the seniors' playbook.
@@ -30,7 +30,8 @@ policy:
   max_machines: 40
   safety_days: 1.0        # kit safety stock
   rule: pri4              # tester priority: fifo | pri2 | pri4
-  sell_from_day: 297       # 14 Nov 17:10 IST: team paused sales until 297 (selling down to 7/4/5 made orders late)
+  sell_from_day: 300       # 14 Nov 19:58 IST: keep all machines working until the final sweep
+  final_sell_day: 299      # 14 Nov 19:58 IST: team decision - on day 299 sell down to 1 per station (game minimum)
   final_kits: {from: 285, until: 292, qty: 6000}   # 14 Nov 14:50 IST: team-approved last kit order (stock 4,020 vs ~14 orders/day for 15 days)
   no_buy: true            # 11 Nov 16:15 IST: no machine purchases; policy repays debt instead of saving for machines
   no_edit_mode: hold      # if contract/WIP never become editable: stop buying kits, keep cash

@@ -281,7 +281,13 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
             acts.append(Action("repay", int(min(free, obs.debt)), reason="debt costs 20%, cash earns 10%"))
 
     # ---- sell surplus late in the game
-    if d >= cfg["sell_from_day"]:
+    if cfg.get("final_sell_day") and d >= cfg["final_sell_day"]:
+        # last day: sell down to the game's minimum of 1 per station; machines go as they become
+        # idle, so batches already being worked finish first
+        for k in (1, 2, 3):
+            if obs.machines[k] > 1 and obs.on_order.get(k, 0) == 0:
+                acts.append(Action("sell", 1, station=k, reason="final sweep, keep 1 (game minimum)"))
+    elif d >= cfg["sell_from_day"]:
         for k in (1, 2, 3):
             keep = max(1, math.ceil(lam_life * h[k] / (24 * u) + 1e-9) + 1)
             if obs.machines[k] > keep and obs.on_order.get(k, 0) == 0 and backlog_h[k] < 24:
