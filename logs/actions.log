@@ -2258,3 +2258,7 @@
   insight: orders 12/d (prev 16.1, plan 13.7) shipped 11.2/d capacity 24.2/d util 38.6%/31.9%/48.2% lead 6.3h rev/job 1248 of 1500
   WARN demand fell 26% (16 -> 12/d); lead time 6.3h is over the 6h quote; jobs earn $1,248 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-14T11:21:48+00:00 day 290.0 cash $3,966,325 debt $0 machines {1: 8, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 2460 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 11.7/d (prev 15.1, plan 13.4) shipped 11.2/d capacity 24.2/d util 43.7%/34.1%/52.9% lead 7.2h rev/job 1097 of 1500
+  WARN demand fell 23% (15 -> 12/d); lead time 7.2h is over the 6h quote; jobs earn $1,097 avg, below the $1,500 price (late orders)
+  OK   sell S1 -> 7  (life demand needs 6+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 1 machine at station 1 will be sold as soon as it becomes idle 
