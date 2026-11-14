@@ -315,6 +315,15 @@ def decide(obs: Observation, cfg: dict | None = None) -> list[Action]:
     afford = int((obs.cash - cfg["cash_buffer"] - sum(PRICES[a.station][0] * (a.value - obs.machines[a.station])
                                                       for a in buys)) / obs.kit_unit)
     roq = max(60, min(roq, (afford // 60) * 60))
+    fk = cfg.get("final_kits")
+    if (fk and fk.get("from", 0) <= d < fk.get("until", GAME_END) and obs.kits_on_order == 0
+            and obs.inventory < fk["qty"]):
+        # team decision: one last kit order of fk["qty"]; set the quantity first, then raise the
+        # reorder point just above stock so the game places the order on the next kit used
+        if obs.roq != int(fk["qty"]):
+            acts.append(Action("roq", int(fk["qty"]), reason="final kit order (team decision)"))
+        acts.append(Action("rop", obs.inventory + 60, reason="final kit order (team decision)"))
+        return acts
     if _changed(obs.rop, rop):
         acts.append(Action("rop", rop, reason=f"D {D:.0f} kits/d, lead 4d + {cfg['safety_days']}d safety"))
     if _changed(obs.roq, roq, 0.3 if roq > obs.roq else 0.15):
