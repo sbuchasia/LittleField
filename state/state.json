@@ -1,5 +1,5 @@
 {
- "runs": 685,
+ "runs": 686,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -947,6 +947,6 @@
    "act": "sell S1 -> 7  (life demand needs 6+1 spare)"
   }
  ],
- "last_day": 292.0,
- "last": "2026-11-14T12:33:11+00:00 day 292.0 cash $4,001,578 debt $0 machines {1: 7, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 7260 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
+ "last_day": 293.0,
+ "last": "2026-11-14T12:43:21+00:00 day 293.0 cash $4,010,009 debt $0 machines {1: 7, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 6720 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
 }
