@@ -2196,3 +2196,9 @@
   insight: orders 15.3/d (prev 20.1, plan 16.8) shipped 16/d capacity 75.5/d util 20.3%/19.4%/19.7% lead 5.2h rev/job 1426 of 1500
   WARN demand fell 24% (20 -> 15/d)
   no changes needed
+2026-11-14T08:58:17+00:00 day 285.0 cash $3,660,185 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 4020 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 15.2/d (prev 18.6, plan 16.2) shipped 15.5/d capacity 75.5/d util 18.8%/18.2%/16.8% lead 5.1h rev/job 1441 of 1500
+  WARN demand fell 18% (19 -> 15/d)
+  OK   sell S1 -> 19  (life demand needs 8+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 6 machines at station 1 will be sold as they become idle 
+  OK   sell S2 -> 4  (life demand needs 3+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 6 machines at station 2 will be sold as they become idle 
+  OK   sell S3 -> 9  (life demand needs 5+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 6 machines at station 3 will be sold as they become idle 

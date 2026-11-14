@@ -1,5 +1,5 @@
 {
- "runs": 663,
+ "runs": 664,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -885,8 +885,23 @@
    "ts": "2026-11-14T07:57:13+00:00",
    "day": 283.0,
    "act": "roq -> 60  (EOQ 4647, cover 4.5d)"
+  },
+  {
+   "ts": "2026-11-14T08:58:17+00:00",
+   "day": 285.0,
+   "act": "sell S1 -> 19  (life demand needs 8+1 spare)"
+  },
+  {
+   "ts": "2026-11-14T08:58:17+00:00",
+   "day": 285.0,
+   "act": "sell S2 -> 4  (life demand needs 3+1 spare)"
+  },
+  {
+   "ts": "2026-11-14T08:58:17+00:00",
+   "day": 285.0,
+   "act": "sell S3 -> 9  (life demand needs 5+1 spare)"
   }
  ],
- "last_day": 284.0,
- "last": "2026-11-14T08:48:08+00:00 day 284.0 cash $3,652,637 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 4860 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
+ "last_day": 285.0,
+ "last": "2026-11-14T08:58:17+00:00 day 285.0 cash $3,660,185 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 4020 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
 }
