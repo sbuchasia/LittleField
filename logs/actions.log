@@ -2372,3 +2372,7 @@
   insight: orders 5.5/d (prev 10, plan 8) shipped 6.2/d capacity 3/d util 27.2%/17.9%/22.3% lead 5.3h rev/job 1414 of 1500
   WARN plan assumes 8/d but real orders are 6/d; demand fell 45% (10 -> 6/d); orders 6/d near capacity 3/d; jobs earn $1,414 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-14T16:06:59+00:00 day 300.0 cash $4,178,794 debt $0 machines {1: 1, 2: 1, 3: 1} on-order {1: 0, 2: 0, 3: 0} inv 4680 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=OFF
+  insight: orders 4.7/d (prev 10, plan 6.7) shipped 5.6/d capacity 3/d util 23%/18.7%/25.3% lead 5.4h rev/job 1385 of 1500
+  WARN plan assumes 7/d but real orders are 5/d; demand fell 53% (10 -> 5/d); orders 5/d near capacity 3/d; jobs earn $1,385 avg, below the $1,500 price (late orders)
+  game over or about to end: no actions
