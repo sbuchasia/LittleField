@@ -2207,3 +2207,8 @@
   WARN demand fell 18% (19 -> 15/d)
   OK   sell S1 -> 13  (life demand needs 8+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 6 machines at station 1 will be sold as they become idle 
   OK   sell S3 -> 6  (life demand needs 5+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 3 machines at station 3 will be sold as they become idle 
+2026-11-14T09:19:12+00:00 day 286.0 cash $3,918,154 debt $0 machines {1: 13, 2: 4, 3: 6} on-order {1: 0, 2: 0, 3: 0} inv 3120 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 15/d (prev 17.7, plan 15.5) shipped 14.2/d capacity 31.1/d util 19.1%/19.2%/19.9% lead 5.2h rev/job 1432 of 1500
+  WARN demand fell 15% (18 -> 15/d)
+  OK   sell S1 -> 8  (life demand needs 7+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 5 machines at station 1 will be sold as they become idle 
+  OK   sell S3 -> 5  (life demand needs 4+1 spare) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 1 machine at station 3 will be sold as soon as it becomes idle 
