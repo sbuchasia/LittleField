@@ -2342,3 +2342,7 @@
   insight: orders 5.8/d (prev 12.1, plan 8.3) shipped 6.2/d capacity 21.1/d util 24.2%/16.2%/16.1% lead 5.1h rev/job 1460 of 1500
   WARN plan assumes 8/d but real orders are 6/d; demand fell 52% (12 -> 6/d)
   no changes needed
+2026-11-14T14:55:47+00:00 day 297.0 cash $4,047,276 debt $0 machines {1: 7, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 5460 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 5.8/d (prev 12.1, plan 8.3) shipped 6.2/d capacity 21.1/d util 24.2%/16.2%/16.1% lead 5.1h rev/job 1460 of 1500
+  WARN plan assumes 8/d but real orders are 6/d; demand fell 52% (12 -> 6/d)
+  no changes needed
