@@ -2171,3 +2171,8 @@
   insight: orders 17/d (prev 20.9, plan 19) shipped 17.5/d capacity 75.5/d util 22.7%/21.9%/21.4% lead 5.2h rev/job 1417 of 1500
   WARN demand fell 18% (21 -> 17/d); jobs earn $1,417 avg, below the $1,500 price (late orders)
   OK   roq -> 180  (EOQ 4823, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 3 x 60 = 180 units 
+2026-11-14T07:57:13+00:00 day 283.0 cash $3,617,845 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 5640 rop/roq 5760/180 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 15.5/d (prev 21.9, plan 17.6) shipped 15.3/d capacity 75.5/d util 21.6%/20.8%/21.6% lead 5.2h rev/job 1416 of 1500
+  WARN demand fell 29% (22 -> 16/d); jobs earn $1,416 avg, below the $1,500 price (late orders)
+  OK   rop -> 60  (D 1058 kits/d, lead 4d + 1.0d safety) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 1 x 60 = 60 units 
+  OK   roq -> 60  (EOQ 4647, cover 4.5d) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 1 x 60 = 60 units 
