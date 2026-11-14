@@ -2286,3 +2286,7 @@
   insight: orders 10.2/d (prev 15.1, plan 11.9) shipped 11.2/d capacity 21.1/d util 50.2%/35.9%/60.2% lead 7.7h rev/job 1072 of 1500
   WARN plan assumes 12/d but real orders are 10/d; demand fell 33% (15 -> 10/d); lead time 7.7h is over the 6h quote; jobs earn $1,072 avg, below the $1,500 price (late orders)
   no changes needed
+2026-11-14T12:33:11+00:00 day 292.0 cash $4,001,578 debt $0 machines {1: 7, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 7260 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 10.2/d (prev 15.1, plan 11.9) shipped 11.2/d capacity 21.1/d util 50.2%/35.9%/60.2% lead 7.7h rev/job 1072 of 1500
+  WARN plan assumes 12/d but real orders are 10/d; demand fell 33% (15 -> 10/d); lead time 7.7h is over the 6h quote; jobs earn $1,072 avg, below the $1,500 price (late orders)
+  no changes needed
