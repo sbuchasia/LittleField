@@ -31,6 +31,16 @@ def update(path: Path, day: float, standings: list[dict]) -> dict:
     return data
 
 
+def _days_left_equiv(day: float) -> float:
+    """Earning days left, in days at today's pace: full pace to day 180, then demand assumed to
+    fall in a straight line to zero at day 300 (60 pace-days at day 180, 0 at day 300)."""
+    day = min(max(day, 0), 300)
+    if day < PEAK_END:
+        return (PEAK_END - day) + AFTER_PEAK_DAYS
+    # after the peak today's pace is already the lower level: remaining earning ~ half the days left
+    return (300 - day) / 2
+
+
 def _slope(pts):
     n = len(pts)
     if n < 2:
@@ -50,14 +60,17 @@ def analyse(data: dict, day: float, me: str, top: int = 12, proj_n: int = 50) ->
             continue
         net = pts[-1][1]
         win = [(x, y) for x, y in pts if x >= day - WINDOW]
-        rate = _slope(win)
+        # median day-over-day change: one-off jumps (machine sales in, kit orders out) don't skew it
+        steps = sorted((y1 - y0) / (x1 - x0) for (x0, y0), (x1, y1) in zip(win, win[1:]) if x1 > x0)
+        rate = (steps[len(steps) // 2] if len(steps) % 2 else
+                (steps[len(steps) // 2 - 1] + steps[len(steps) // 2]) / 2) if steps else None
         spent = []          # one-day drops bigger than a kit order -> machines bought
         for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
             if x1 - x0 == 1 and y1 - y0 < -60_000 and x1 >= day - 30:
                 spent.append((x1, round(y0 - y1)))
         proj = None
         if rate is not None and len(win) >= 8:
-            proj = net + rate * max(0, PEAK_END - day) + rate * AFTER_PEAK_DAYS
+            proj = net + rate * _days_left_equiv(day)
         rows.append(dict(team=team, net=round(net), rate=None if rate is None else round(rate),
                          proj=None if proj is None else round(proj), days=len(win),
                          spent=spent[-3:]))

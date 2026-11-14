@@ -30,7 +30,7 @@ policy:
   max_machines: 40
   safety_days: 1.0        # kit safety stock
   rule: pri4              # tester priority: fifo | pri2 | pri4
-  sell_from_day: 285       # 11 Nov 16:15 IST: was 200. Resale is $8-10k whenever we sell, so keep capacity until the end
+  sell_from_day: 297       # 14 Nov 17:10 IST: team paused sales until 297 (selling down to 7/4/5 made orders late)
   final_kits: {from: 285, until: 292, qty: 6000}   # 14 Nov 14:50 IST: team-approved last kit order (stock 4,020 vs ~14 orders/day for 15 days)
   no_buy: true            # 11 Nov 16:15 IST: no machine purchases; policy repays debt instead of saving for machines
   no_edit_mode: hold      # if contract/WIP never become editable: stop buying kits, keep cash
