@@ -2364,3 +2364,7 @@
   OK   sell S1 -> 1  (final sweep, keep 1 (game minimum)) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 6 machines at station 1 will be sold as they become idle 
   OK   sell S2 -> 1  (final sweep, keep 1 (game minimum)) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 3 machines at station 2 will be sold as they become idle 
   OK   sell S3 -> 1  (final sweep, keep 1 (game minimum)) |  Station Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... 4 machines at station 3 will be sold as they become idle 
+2026-11-14T15:46:42+00:00 day 299.0 cash $4,178,181 debt $0 machines {1: 1, 2: 1, 3: 1} on-order {1: 0, 2: 0, 3: 0} inv 4740 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 5.5/d (prev 10, plan 8) shipped 6.2/d capacity 3/d util 27.2%/17.9%/22.3% lead 5.3h rev/job 1414 of 1500
+  WARN plan assumes 8/d but real orders are 6/d; demand fell 45% (10 -> 6/d); orders 6/d near capacity 3/d; jobs earn $1,414 avg, below the $1,500 price (late orders)
+  no changes needed
