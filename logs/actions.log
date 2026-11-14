@@ -2216,3 +2216,8 @@
   insight: orders 15/d (prev 17.7, plan 15.5) shipped 14.2/d capacity 24.2/d util 19.1%/19.2%/19.9% lead 5.2h rev/job 1432 of 1500
   WARN demand fell 15% (18 -> 15/d)
   no changes needed
+2026-11-14T09:39:43+00:00 day 286.0 cash $3,983,129 debt $0 machines {1: 8, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 4560 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on
+  insight: orders 15/d (prev 17.7, plan 15.5) shipped 14.2/d capacity 24.2/d util 19.1%/19.2%/19.9% lead 5.2h rev/job 1432 of 1500
+  WARN demand fell 15% (18 -> 15/d)
+  OK   roq -> 6000  (final kit order (team decision)) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order quantity is now 100 x 60 = 6000 units 
+  OK   rop -> 4620  (final kit order (team decision)) |  Materials Form Littlefield Technologies - CONFIRMATION Processing request... Processing request... Material order point is now 77 x 60 = 4620 units 

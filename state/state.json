@@ -1,5 +1,5 @@
 {
- "runs": 667,
+ "runs": 668,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -920,8 +920,18 @@
    "ts": "2026-11-14T09:19:12+00:00",
    "day": 286.0,
    "act": "sell S3 -> 5  (life demand needs 4+1 spare)"
+  },
+  {
+   "ts": "2026-11-14T09:39:43+00:00",
+   "day": 286.0,
+   "act": "roq -> 6000  (final kit order (team decision))"
+  },
+  {
+   "ts": "2026-11-14T09:39:43+00:00",
+   "day": 286.0,
+   "act": "rop -> 4620  (final kit order (team decision))"
   }
  ],
  "last_day": 286.0,
- "last": "2026-11-14T09:29:33+00:00 day 286.0 cash $3,978,902 debt $0 machines {1: 8, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 3120 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
+ "last": "2026-11-14T09:39:43+00:00 day 286.0 cash $3,983,129 debt $0 machines {1: 8, 2: 4, 3: 5} on-order {1: 0, 2: 0, 3: 0} inv 4560 rop/roq 60/60 contract 3 wip 18 rule pri4 edits=on"
 }
