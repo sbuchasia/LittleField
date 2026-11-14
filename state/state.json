@@ -1,5 +1,5 @@
 {
- "runs": 640,
+ "runs": 641,
  "actions": [
   {
    "ts": "2026-11-09T16:25:33+00:00",
@@ -862,6 +862,6 @@
    "act": "rop -> 6780  (D 1347 kits/d, lead 4d + 1.0d safety)"
   }
  ],
- "last_day": 276.0,
- "last": "2026-11-14T04:54:04+00:00 day 276.0 cash $3,499,364 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 5580 rop/roq 6780/960 contract 3 wip 18 rule pri4 edits=on"
+ "last_day": 277.0,
+ "last": "2026-11-14T05:04:13+00:00 day 277.0 cash $3,502,601 debt $0 machines {1: 25, 2: 10, 3: 15} on-order {1: 0, 2: 0, 3: 0} inv 4380 rop/roq 6780/960 contract 3 wip 18 rule pri4 edits=on"
 }
